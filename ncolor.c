@@ -1,7 +1,5 @@
 /*
-* 
-* 
-
+ 
 Copyright 2016 Matt Arnold
 
 Permission to use, copy, modify, and/or distribute this software for any
@@ -36,9 +34,10 @@ int main(int argc, char *argv[])
 	const char *tf = "[%H:%M:%S]:";
 	bool cln, cls, twn;
 	int opt;
+	int skip = 1;
 	cln = cls = twn = false;
 
-	while ((opt = getopt(argc, argv, "cst:")) != -1) {
+	while ((opt = getopt(argc, argv, "cst:a:")) != -1) {
 		switch (opt) {
 		case 'c':
 			cls = true;
@@ -51,6 +50,11 @@ int main(int argc, char *argv[])
 			break;
 		case 's':
 			twn = true;
+			break;
+
+		case 'a':
+			printf("%s\n", optarg);
+			skip = atoi(optarg);
 			break;
 		default:
 			// all options optional
@@ -78,6 +82,10 @@ int main(int argc, char *argv[])
 	if (cls) {
 		printf("%s", "\x1b[2J");
 	}
+	if (skip < 1) {
+		skip = 1;
+		twn = true;
+	}
 
 	char c;
 	signal(SIGINT, sigproc);
@@ -96,7 +104,7 @@ int main(int argc, char *argv[])
 		}
 		fputc(c, stdout);
 		lc++;
-		tsn = (c == '\n' && lc % 2 == 0) ? true : false;
+		tsn = (c == '\n' && lc % skip == 0) ? true : false;
 	}
 	puts("\x1b[0m");
 }
