@@ -1,9 +1,9 @@
-Matt's Ten Minute Hax'a is proud to present ncolor. An output fillter
-to colorize the output of commands. Also it will time stamp output for
+Matt's Ten Minute Hax'a is proud to present ncolor. An output filter
+to colorize the output of commands. Also it will timestamp output for
 you if you are so inclined. Options are
 
-ncolor [-t <colorspec>] [-s] [-c] [-a <n>] 
--c Clear the screen 
--s Supress the timestamp 
+ncolor [-t <colorspec>] [-s] [-c] [-a <n>]
+-c Clear the screen
+-s Suppress the timestamp
 -t Sets the colorspec
 -a Set the skip for the timestamping
