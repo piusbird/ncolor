@@ -1,7 +1,9 @@
 PREFIX=/usr/local
-all: clean indent ncolor
+CC=gcc
+CFLAGS=-Wall -Werror 
+all: clean  ncolor
 ncolor: ncolor.c
-	gcc -o ncolor ncolor.c -I.
+	$(CC) $(CFLAGS) -o ncolor ncolor.c -I.
 
 clean: 
 	rm -f ncolor

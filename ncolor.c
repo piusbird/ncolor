@@ -23,12 +23,19 @@ CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 #include <time.h>
 #include <string.h>
 #define BUFFSIZE 256
-
+#ifdef EXP_BSD
+#include <err.h>
+#endif
 void sigproc();
 void sigcnt();
 void sigstp();
 int main(int argc, char *argv[])
 {
+	#ifdef EXP_BSD
+		if(pledge("stdio", NULL)== -1)
+			err(1, "pledge");
+	#endif
+
 	char *pbuf;
 	char tbuf[BUFFSIZE];
 	const char *tf = "[%H:%M:%S]:";
@@ -95,10 +102,9 @@ int main(int argc, char *argv[])
 	signal(SIGQUIT, sigproc);
 	signal(SIGCONT, sigcnt);
 	signal(SIGSTOP, sigstp);
-
-	time_t start = time(NULL);
 	bool tsn = false;
 	int lc = 1;
+
 	while ((c = fgetc(stdin)) != EOF) {
 		if (tsn && !twn) {
 			time_t now = time(NULL);
@@ -110,6 +116,7 @@ int main(int argc, char *argv[])
 		tsn = (c == '\n' && lc % skip == 0) ? true : false;
 	}
 	puts("\x1b[0m");
+	return 0;
 }
 
 void sigproc()
