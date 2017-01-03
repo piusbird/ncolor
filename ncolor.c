@@ -29,6 +29,7 @@ CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 void sigproc();
 void sigcnt();
 void sigstp();
+void sig_ignore();
 int main(int argc, char *argv[])
 {
 	#ifdef EXP_BSD
@@ -102,6 +103,7 @@ int main(int argc, char *argv[])
 	signal(SIGQUIT, sigproc);
 	signal(SIGCONT, sigcnt);
 	signal(SIGSTOP, sigstp);
+	signal(SIGPIPE, sig_ignore);
 	bool tsn = false;
 	int lc = 1;
 
@@ -139,4 +141,9 @@ void sigcnt()
 		fprintf(stderr, "%s\n", "Must set ansi code in PIPE_COLOR");
 		exit(1);
 	}
+}
+
+void sig_ignore()
+{
+	return;
 }
